@@ -1,24 +1,30 @@
 package library
 
-private val LibraryDataBase.Companion.managerTable: Unit
-    get() {}
 
-class ProgramOperator {
+class ProgramOperator(var id: String, var pwd: String, var type: String) {
 
-    fun login(mode: Any, id: String, pwd:String) {
+    companion object {
+        private var checkList = mutableListOf<LibraryDataBase.PeopleInfo>()
+        fun login(id: String, pwd: String, type: String): Boolean {
 
-        if (mode == "1") {
-            LibraryDataBase.managerTable
+            when (type) {
+                "관리자" -> checkList = LibraryDataBase.managerList
+                "멤버" -> checkList = LibraryDataBase.memberList
+            }
 
+            for (i in 0 until checkList.size) {
+                if (checkList[i].id == id) {
+                    return checkList[i].pwd == pwd
+                }
+            }
+            return false
         }
+    }
 
+
+//    fun programExit()
 
     }
 
-    fun startIfRegistered()
 
-    fun logout()
 
-    fun programExit()
-
-}
