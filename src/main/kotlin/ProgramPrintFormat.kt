@@ -27,9 +27,10 @@ enum class ProgramPrintFormat(val task: String) : Printable {
 
                 "loginFail" -> println("\n\uD83D\uDE4F로그인 id 혹은 비밀번호를 확인해주세요.\n")
             }
-            return "" as T
-        }
-    },
+
+                return "" as T
+            }
+        },
 
     REGISTER("task") {
         override fun <T> print(task: T) : T {

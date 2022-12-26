@@ -1,5 +1,7 @@
 package library
 
+import java.time.LocalDate
+
 class LibraryDataBase {
 
     companion object {
@@ -23,6 +25,10 @@ class LibraryDataBase {
     data class BookInfo(val name: String, val author: String, var price: Int, var checkOut: String = "대여 가능") {
         var remainBalance:Int = PurchaseBook.totalBalance
     }
-    data class PeopleInfo(val id: String, val pwd: String, val type: String)
+    data class PeopleInfo(val id: String, val pwd: String, val type: String) {
+        var checkOutHistory = mutableListOf<HistoryByPersonInfo>()
+    }
+
+    data class HistoryByPersonInfo(var date: LocalDate, val book:String, val lastStatus:String)
 
 }

@@ -6,7 +6,6 @@ import kotlin.system.exitProcess
 
 fun main(args: Array<String>) = with(System.`in`.bufferedReader()) {
 
-    var lwmg = LibraryWorkForManager()
     PeopleInformationRegister.register("ron", "1234", "관리자")
     PeopleInformationRegister.register("ivy", "1234", "멤버")
     PeopleInformationRegister.register("hailey", "1234", "멤버")
@@ -18,28 +17,30 @@ fun main(args: Array<String>) = with(System.`in`.bufferedReader()) {
         var modeChangeFlag = false
         var loginRetry = 0
 
-        when(PrintFormat.PROGRAM.print("start","menu")){
+        when(ProgramPrintFormat.START.print("menu")){
             "1" -> {
+
                 modeOut@ while(loginRetry<=2){
 
                     if (modeChangeFlag) break@modeOut
 
                     // 로그인 물어보기
-                    var loginSet= PrintFormat.PROGRAM.print("start", "login").split(",")
+                    var loginSet= ProgramPrintFormat.START.print("login").split(",")
+                    var lwmg = LibraryWorkForManager(loginSet[0], loginSet[1])
 
-                    if (!ProgramOperator.login(loginSet[0], loginSet[1], "관리자")) {
+                    if (!ProgramOperator.login(lwmg.id, lwmg.pwd,"관리자")) {
                         loginRetry+=1
-                        PrintFormat.PROGRAM.print("start", "loginFail")
+                        ProgramPrintFormat.START.print("loginFail")
                         continue
                     }
 
                     taskLoop@ while(true){
                         // 원하는 업무 물어보기
-                        var task = PrintFormat.MANAGER.print("start", "menu")
+                        var task = ManagerPrintFormat.START.print("menu")
                         when(task){
                             "1" -> lwmg.checkBookList()
-                            "2" -> lwmg.updateBookListStatus(PrintFormat.MANAGER.print("updateBookListStatus","menu"))
-                            "3" -> lwmg.purchase(PrintFormat.MANAGER.print("purchase", "menu"))
+                            "2" -> lwmg.updateBookListStatus(ManagerPrintFormat.UPDATEBOOKLISTSTATUS.print("menu"))
+                            "3" -> lwmg.purchase(ManagerPrintFormat.PURCHASE.print("menu"))
                             "4" -> {
                                 modeChangeFlag = true
                                 break@taskLoop
@@ -50,56 +51,51 @@ fun main(args: Array<String>) = with(System.`in`.bufferedReader()) {
                             }
                         }
                     }
-
                 }
-
             }
 
             "2" -> {
-//                modeOut@ while(loginRetry<=3){
-//                    if (modeChangeFlag) break@modeOut
-//
-//                    println("로그인 id 및 비밀번호를 입력해주세요.")
-//                    println("id: ")
-//                    var id = readLine()
-//                    println("pwd: ")
-//                    var pwd = readLine()
-//
-//                    var mb = Member(id, pwd)
-//
-//                    if (!mb.login(mb.id, mb.pwd, mb.type)) {
-//                        loginRetry+=1
-//                        continue}
-//
-//                    taskLoop@ while(true){
-//                        println("원하는 업무 번호를 선택하세요. " +
-//                                "\n1.전체 도서 목록 조회 " +
-//                                "\n2.대여/반납 업데이트" +
-//                                "\n3.도서 구매 및 도서 목록 업데이트"+
-//                                "\n4.로그아웃"+
-//                                "\n5.프로그램 종료")
-//                        var task = readLine()
-//                        when(task){
-//                            "1" -> LibraryWorkForMember.checkBookList()
-//                            "2" -> LibraryWorkForMember.updateBookListStatus()
-//                            "3" -> LibraryWorkForMember.purchase()
-//                            "4" -> {
-//                                modeChangeFlag = true
-//                                break@taskLoop
-//                            }
-//                            "5" -> {
-//                                println("도서 관리 프로그램을 종료합니다.")
-//                                exitProcess(0)
-//                            }
-//                        }
-//                    }
-//
-//                }
-//
-//            }
+
+                modeOut@ while (loginRetry <= 2) {
+
+                    if (modeChangeFlag) break@modeOut
+
+                    // 로그인 물어보기
+                    var loginSet = ProgramPrintFormat.START.print("login").split(",")
+
+                    var lwmb = LibraryWorkForMember(loginSet[0], loginSet[1])
+
+                    if (!ProgramOperator.login(lwmb.id, lwmb.pwd,"멤버")) {
+                        loginRetry += 1
+                        ProgramPrintFormat.START.print("loginFail")
+                        continue
+                    }
+
+                    taskLoop@ while (true) {
+                        // 원하는 업무 물어보기
+                        var task = MemberPrintFormat.START.print("menu")
+
+                        when (task) {
+                            "1" -> lwmb.printMyCheckOutStatus()
+                            "2" -> lwmb.searchBook()
+                            "3" -> lwmb.borrowBook(MemberPrintFormat.BORROWBOOK.print("menu"))
+                            "4" -> lwmb.returnBook()
+                            "5" -> {
+                                modeChangeFlag = true
+                                break@taskLoop
+                            }
+
+                            "6" -> run {
+                                println("👋도서 관리 프로그램 종료")
+                                exitProcess(0)
+                            }
+                        }
+                    }
+                }
             }
+
             "3" -> {
-                var personInfo = PrintFormat.PROGRAM.print("register", "askPersonInfo").split(",")
+                var personInfo = ProgramPrintFormat.REGISTER.print("askPersonInfo").split(",")
                 PeopleInformationRegister.register(personInfo[1], personInfo[2], personInfo[0])
             }
             "4" -> run {
