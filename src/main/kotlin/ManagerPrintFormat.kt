@@ -12,6 +12,7 @@ enum class ManagerPrintFormat(val task: String) : Printable {
                                 "\n3.도서 구매 및 도서 목록 업데이트" + "\n4.로그아웃" + "\n5.프로그램 종료"
                     )
                     var input = sc.nextLine()
+                    return input as T
                 }
             }
             return "" as T
@@ -32,7 +33,7 @@ enum class ManagerPrintFormat(val task: String) : Printable {
         override fun <T> print(task: T) : T {
             when(task){
                 "menu" -> {
-                    println("\n\uD83D\uDE4F원하는 상세 업무를 선택하세요." + "\n1.도서 대여 처리" + "\n2.도서 반납 처리")
+                    println("\n\uD83D\uDE4F원하는 상세 업무를 선택하세요." + "\n1.도서 대여" + "\n2.도서 반납")
                     var input = sc.nextLine()
                     return input as T
                 }
@@ -48,7 +49,7 @@ enum class ManagerPrintFormat(val task: String) : Printable {
                 }
                 "checkOutDeny" -> println("\n\uD83D\uDE4F해당 도서는 대여 불가능합니다. 죄송합니당")
                 "checkOutAccept" -> println("\n📙대여 완료. 대여 기간 7일~")
-                "noBookName" -> println("\n🙏입력하신 도서명을 찾지 못합니다. 도서명을 다시 확인해주세요.")
+                "noBookName" -> println("🙏입력하신 도서명 혹은 저자명을 찾지 못합니다. 다시 확인해주세요.")
                 "return" -> println("\n🧤반납 완료. 잘하셨어요^^")
             }
             return "" as T

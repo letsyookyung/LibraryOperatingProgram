@@ -45,12 +45,26 @@ enum class MemberPrintFormat(val task: String) : Printable {
             when(task) {
                 "menu" -> {
                     println(
-                        "\n어떤 항목으로 검색하시겠습니까? \n1.도서명 \n2.저자"
+                        "\n어떤 항목으로 검색하시겠습니까? \n1.도서명 \n2.저자명"
                     )
                     var input = sc.nextLine()
                     return input as T
-
                 }
+                "askBookName" -> {
+                    println("\n\uD83D\uDCDA도서명을 입력하세요.")
+                    var input = sc.nextLine()
+                    return input as T
+                }
+                "askAuthor" -> {
+                    println("\n\uD83D\uDCDA저자명을 입력하세요.")
+                    var input = sc.nextLine()
+                    return input as T
+                }
+                "selectBook" -> {
+                    println("📚대여 가능한 목록 중 해당하는 도서의 번호를 입력해주세요. q를 누르면 뒤로 돌아갑니다.)")
+                }
+                "noBook" -> println("🙏입력하신 도서명 혹은 저자명을 찾지 못합니다. 다시 확인해주세요.")
+
 
             }
             return "" as T
