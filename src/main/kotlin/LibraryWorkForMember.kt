@@ -1,5 +1,6 @@
 package library
 
+import java.time.LocalDate
 import java.util.*
 
 open class LibraryWorkForMember(var id:String, var pwd:String) {
@@ -44,8 +45,29 @@ open class LibraryWorkForMember(var id:String, var pwd:String) {
                     }
                 }
 
-                errorByAnyChance(isExisted, isAvailable, bookName=bookName)
+                if (!isExisted) {
+                    MemberPrintFormat.BORROWBOOK.print("noBook")
+                    return
+                }
 
+                println("번호는 ${LibraryDataBase.bookList.size - 1}를 벗어날 수 없으니 주의해주세요.\n번호 입력: ")
+
+                var idx = sc.nextLine()
+
+                if (errorByAnyChance(isAvailable, bookName = bookName, input = idx)) {
+                    LibraryDataBase.bookList[idx.toInt()].checkOut = "대여 불가능"
+                    ManagerPrintFormat.UPDATEBOOKLISTSTATUS.print("checkOutAccept")
+                    for (j in 0 until LibraryDataBase.memberList.size) {
+                        if (LibraryDataBase.memberList[j].id == id) {
+                            LibraryDataBase.memberList[j].checkOutHistory.add(
+                                LibraryDataBase.HistoryByPersonInfo(
+                                    LocalDate.now(), LibraryDataBase.bookList[idx.toInt()].name, "대여중"
+                                )
+                            )
+                            break
+                        }
+                    }
+                }
             }
             //저자명
             "2" -> {
@@ -68,8 +90,29 @@ open class LibraryWorkForMember(var id:String, var pwd:String) {
                         }
                     }
                 }
-                errorByAnyChance(isExisted, isAvailable, author=author)
+                if (!isExisted) {
+                    MemberPrintFormat.BORROWBOOK.print("noBook")
+                    return
+                }
 
+                println("번호는 ${LibraryDataBase.bookList.size - 1}를 벗어날 수 없으니 주의해주세요.\n번호 입력: ")
+
+                var idx = sc.nextLine()
+
+                if (errorByAnyChance(isAvailable, author = author, input = idx)) {
+                    LibraryDataBase.bookList[idx.toInt()].checkOut = "대여 불가능"
+                    ManagerPrintFormat.UPDATEBOOKLISTSTATUS.print("checkOutAccept")
+                    for (j in 0 until LibraryDataBase.memberList.size) {
+                        if (LibraryDataBase.memberList[j].id == id) {
+                            LibraryDataBase.memberList[j].checkOutHistory.add(
+                                LibraryDataBase.HistoryByPersonInfo(
+                                    LocalDate.now(), LibraryDataBase.bookList[idx.toInt()].name, "대여중"
+                                )
+                            )
+                            break
+                        }
+                    }
+                }
             }
         }
     }
@@ -77,55 +120,48 @@ open class LibraryWorkForMember(var id:String, var pwd:String) {
     fun returnBook() {}
 
 
-    private fun errorByAnyChance(isExisted:Boolean, isAvailable:Boolean, bookName:String="", author:String="") {
+    private fun errorByAnyChance(isAvailable:Boolean, bookName:String="", author:String="", input:String): Boolean {
 
-        if (!isExisted) {
-            MemberPrintFormat.BORROWBOOK.print("noBook")
-            return
-        }
+            var idx = input
 
-        println("번호는 ${LibraryDataBase.bookList.size-1}를 벗어날 수 없으니 주의해주세요.\n번호 입력: ")
-
-        var idx = sc.nextLine()
-
-        if (idx == "q") {
-            return
-        }
-
-        try {
-            if (idx.toInt() >= LibraryDataBase.bookList.size) {
-                println("입력값의 범위를 다시 확인 후 입력하세요. \n")
-                return
+            if (idx == "q") {
+                return false
             }
 
-            if (LibraryDataBase.bookList[idx.toInt()].name != bookName && author == ""){
-                println("도서명과 입력하신 해당 도서 번호가 일치하지 않습니다. \n")
-                return
+            try {
+                if (idx.toInt() >= LibraryDataBase.bookList.size) {
+                    println("입력값의 범위를 다시 확인 후 입력하세요. \n")
+                    return false
+                }
+
+                if (LibraryDataBase.bookList[idx.toInt()].name != bookName && author == ""){
+                    println("도서명과 입력하신 해당 도서 번호가 일치하지 않습니다. \n")
+                    return false
+                }
+
+                if (LibraryDataBase.bookList[idx.toInt()].author != author && bookName == ""){
+                    println("도서명과 입력하신 해당 도서 번호가 일치하지 않습니다. \n")
+                    return false
+                }
+
+                if (!isAvailable) {
+                    println("이 도서는 대여 불가능 상태입니다. \n")
+                    return false
+                }
+
+                if (idx.toInt() >= LibraryDataBase.bookList.size) {
+                    println("입력하신 값을 확인해주세요.")
+                    return false
+                }
+
+            } catch (e: NumberFormatException) {
+                println("입력값은 숫자로 입력해주세요.")
+                return false
             }
 
-            if (LibraryDataBase.bookList[idx.toInt()].author != author && bookName == ""){
-                println("도서명과 입력하신 해당 도서 번호가 일치하지 않습니다. \n")
-                return
-            }
+            return true
 
-            if (!isAvailable) {
-                println("이 도서는 대여 불가능 상태입니다. \n")
-                return
-            }
 
-            LibraryDataBase.bookList[idx.toInt()].checkOut = "대여 불가능"
-
-        } catch (e: NumberFormatException) {
-            println("입력값은 숫자로 입력해주세요.")
-            return
         }
-
-        if (idx.toInt() >= LibraryDataBase.bookList.size) {
-            println("입력하신 값을 확인해주세요.")
-            return
-        }
-
     }
 
-
-}

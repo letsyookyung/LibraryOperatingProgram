@@ -69,7 +69,7 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
             "2" -> {}
 
         }
-        
+
     }
 
     private fun errorByAnyChance(isAvailable:Boolean, bookName:String="", author:String="", input:String): Boolean {
