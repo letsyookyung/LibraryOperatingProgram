@@ -43,7 +43,7 @@ enum class ManagerPrintFormat(val task: String) : Printable {
                     return input as T
                 }
                 "askID" -> {
-                    println("\n\uD83D\uDCDA대여하고자 하는 사람의 ID를 입력하세요.")
+                    println("\n\uD83D\uDCDA멤버ID를 입력하세요.")
                     var input = sc.nextLine()
                     return input as T
                 }

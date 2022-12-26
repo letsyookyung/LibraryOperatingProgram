@@ -1,6 +1,5 @@
 package library
 
-import java.time.LocalDate
 import java.util.*
 
 open class LibraryWorkForMember(var id:String, var pwd:String) {
@@ -48,7 +47,7 @@ open class LibraryWorkForMember(var id:String, var pwd:String) {
                 errorByAnyChance(isExisted, isAvailable, bookName=bookName)
 
             }
-
+            //저자명
             "2" -> {
                 var author = MemberPrintFormat.BORROWBOOK.print("askAuthor")
                 MemberPrintFormat.BORROWBOOK.print("selectBook")
@@ -75,9 +74,7 @@ open class LibraryWorkForMember(var id:String, var pwd:String) {
         }
     }
 
-        //저자명
-
-        fun returnBook() {}
+    fun returnBook() {}
 
 
     private fun errorByAnyChance(isExisted:Boolean, isAvailable:Boolean, bookName:String="", author:String="") {
@@ -123,19 +120,7 @@ open class LibraryWorkForMember(var id:String, var pwd:String) {
             return
         }
 
-        if (idx.toInt() <= LibraryDataBase.bookList.size) {
-            ManagerPrintFormat.UPDATEBOOKLISTSTATUS.print("checkOutAccept")
-            for (j in 0 until LibraryDataBase.memberList.size) {
-                if (LibraryDataBase.memberList[j].id == id) {
-                    LibraryDataBase.memberList[j].checkOutHistory.add(
-                        LibraryDataBase.HistoryByPersonInfo(
-                            LocalDate.now(), LibraryDataBase.bookList[idx.toInt()].name, "대여중"
-                        )
-                    )
-                    break
-                }
-            }
-        } else {
+        if (idx.toInt() >= LibraryDataBase.bookList.size) {
             println("입력하신 값을 확인해주세요.")
             return
         }
