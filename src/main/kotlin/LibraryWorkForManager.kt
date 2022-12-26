@@ -14,6 +14,7 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
 
         var isExisted = false
         var isAvailable = true
+        var isvalidId = false
 
         when (task) {
             //대여
@@ -48,9 +49,13 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
                 var idx = sc.nextLine()
 
                 if (errorByAnyChance(isAvailable, bookName = bookName, input = idx)) {
-                    var memberID = ManagerPrintFormat.UPDATEBOOKLISTSTATUS.print("askID")
-                    LibraryDataBase.bookList[idx.toInt()].checkOut = "대여 불가능"
-                    ManagerPrintFormat.UPDATEBOOKLISTSTATUS.print("checkOutAccept")
+
+                    var memberID = askId()
+
+                    if (memberID == "") {
+                        return
+                    }
+
                     for (j in 0 until LibraryDataBase.memberList.size) {
                         if (LibraryDataBase.memberList[j].id == memberID) {
                             LibraryDataBase.memberList[j].checkOutHistory.add(
@@ -58,12 +63,16 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
                                     LocalDate.now(), LibraryDataBase.bookList[idx.toInt()].name, "대여중"
                                 )
                             )
+                            LibraryDataBase.bookList[idx.toInt()].checkOut = "대여 불가능"
+                            ManagerPrintFormat.UPDATEBOOKLISTSTATUS.print("checkOutAccept")
                             break
                         }
                     }
                 }
 
             }
+
+
 
             //반납
             "2" -> {}
@@ -113,7 +122,22 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
 
         return true
 
+    }
 
+    private fun askId():String {
+
+        var checkId = 0
+        while (checkId <= 2) {
+            var memberID = ManagerPrintFormat.UPDATEBOOKLISTSTATUS.print("askID")
+            for (i in 0 until LibraryDataBase.memberList.size) {
+                if (LibraryDataBase.memberList[i].id == memberID) {
+                    return memberID
+                }
+            }
+            checkId += 1
+            println("입력하신 멤버의 ID는 존재하지 않습니다. 다시 확인하여 입력해주세요.")
+        }
+        return ""
     }
 
 }

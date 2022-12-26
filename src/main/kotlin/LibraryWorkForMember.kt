@@ -100,7 +100,6 @@ open class LibraryWorkForMember(var id:String, var pwd:String) {
                 var idx = sc.nextLine()
 
                 if (errorByAnyChance(isAvailable, author = author, input = idx)) {
-                    LibraryDataBase.bookList[idx.toInt()].checkOut = "대여 불가능"
                     ManagerPrintFormat.UPDATEBOOKLISTSTATUS.print("checkOutAccept")
                     for (j in 0 until LibraryDataBase.memberList.size) {
                         if (LibraryDataBase.memberList[j].id == id) {
@@ -109,6 +108,7 @@ open class LibraryWorkForMember(var id:String, var pwd:String) {
                                     LocalDate.now(), LibraryDataBase.bookList[idx.toInt()].name, "대여중"
                                 )
                             )
+                            LibraryDataBase.bookList[idx.toInt()].checkOut = "대여 불가능"
                             break
                         }
                     }
