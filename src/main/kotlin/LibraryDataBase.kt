@@ -29,7 +29,7 @@ class LibraryDataBase {
             BookInfo("tuesday","adele",20000, "대여 가능"),
             BookInfo("wednesday","rex",20000, "대여 가능"),
             BookInfo("thursday","pete",20000, "대여 불가능"),
-            BookInfo("friday","정기주",20000, "대여 가능"))
+            BookInfo("friday","ivy",20000, "대여 가능"))
 
         var bookList = purchaseHistoryTable
 
