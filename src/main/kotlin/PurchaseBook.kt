@@ -15,7 +15,7 @@ open class PurchaseBook {
                     if (totalBalance-bookInfo[2].toInt() <= 0) {
                         ManagerPrintFormat.PURCHASE.print("noMoney")
                     } else {
-                        addInBookList(bookInfo[0], bookInfo[1], bookInfo[2])
+//                        addInBookList(bookInfo[0], bookInfo[1], bookInfo[2])
                         updateBalance(bookInfo[0], bookInfo[1], bookInfo[2])
                     }
                 } catch (e:IndexOutOfBoundsException) {
@@ -27,13 +27,13 @@ open class PurchaseBook {
         }
     }
 
-    private fun addInBookList(bookName: String, bookAuthor: String, price: String) {
-        LibraryDataBase.bookList.add(LibraryDataBase.BookInfo(bookName, bookAuthor, price.toInt(), "대여 가능"))
-        ManagerPrintFormat.PURCHASE.print("addInBookList")
-    }
+//    private fun addInBookList(bookName: String, bookAuthor: String, price: String) {
+//        LibraryDataBase.bookList.add(LibraryDataBase.BookInfo(bookName, bookAuthor, price.toInt(), "대여 가능"))
+//        ManagerPrintFormat.PURCHASE.print("addInBookList")
+//    }
 
     private fun updateBalance(bookName: String, bookAuthor: String, price: String) {
-        LibraryDataBase.purchaseHistoryTable.add(LibraryDataBase.BookInfo(bookName, bookAuthor, price.toInt(),"")
+        LibraryDataBase.purchaseHistoryTable.add(LibraryDataBase.BookInfo(bookName, bookAuthor, price.toInt(),"대여 가능")
             .apply{remainBalance = totalBalance -price.toInt()})
         totalBalance-=price.toInt()
         }

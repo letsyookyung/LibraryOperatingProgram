@@ -6,12 +6,6 @@ import kotlin.system.exitProcess
 
 fun main(args: Array<String>) = with(System.`in`.bufferedReader()) {
 
-    PeopleInformationRegister.register("ron", "1234", "관리자")
-    PeopleInformationRegister.register("ivy", "1234", "멤버")
-    PeopleInformationRegister.register("hailey", "1234", "멤버")
-    PeopleInformationRegister.register("betty", "1234", "멤버")
-
-
     while (true) {
 
         var modeChangeFlag = false
@@ -35,7 +29,7 @@ fun main(args: Array<String>) = with(System.`in`.bufferedReader()) {
                     }
 
                     taskLoop@ while(true){
-                        // 원하는 업무 물어보기
+                        // 원하는 업무 물어보기능
                         var task = ManagerPrintFormat.START.print("menu")
                         when(task){
                             "1" -> lwmg.checkBookList()

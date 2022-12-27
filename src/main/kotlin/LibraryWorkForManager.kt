@@ -1,5 +1,5 @@
 package library
-import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
 open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook() {
@@ -60,7 +60,7 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
                         if (LibraryDataBase.memberList[j].id == memberID) {
                             LibraryDataBase.memberList[j].checkOutHistory.add(
                                 LibraryDataBase.HistoryByPersonInfo(
-                                    LocalDate.now(), LibraryDataBase.bookList[idx.toInt()].name, "대여중"
+                                    LocalDateTime.now(), LibraryDataBase.bookList[idx.toInt()].name, "대여중"
                                 )
                             )
                             LibraryDataBase.bookList[idx.toInt()].checkOut = "대여 불가능"

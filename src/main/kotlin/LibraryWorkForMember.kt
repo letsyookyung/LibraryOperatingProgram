@@ -1,6 +1,6 @@
 package library
 
-import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
 open class LibraryWorkForMember(var id:String, var pwd:String) {
@@ -61,7 +61,7 @@ open class LibraryWorkForMember(var id:String, var pwd:String) {
                         if (LibraryDataBase.memberList[j].id == id) {
                             LibraryDataBase.memberList[j].checkOutHistory.add(
                                 LibraryDataBase.HistoryByPersonInfo(
-                                    LocalDate.now(), LibraryDataBase.bookList[idx.toInt()].name, "대여중"
+                                    LocalDateTime.now(), LibraryDataBase.bookList[idx.toInt()].name, "대여중"
                                 )
                             )
                             break
@@ -105,7 +105,7 @@ open class LibraryWorkForMember(var id:String, var pwd:String) {
                         if (LibraryDataBase.memberList[j].id == id) {
                             LibraryDataBase.memberList[j].checkOutHistory.add(
                                 LibraryDataBase.HistoryByPersonInfo(
-                                    LocalDate.now(), LibraryDataBase.bookList[idx.toInt()].name, "대여중"
+                                    LocalDateTime.now(), LibraryDataBase.bookList[idx.toInt()].name, "대여중"
                                 )
                             )
                             LibraryDataBase.bookList[idx.toInt()].checkOut = "대여 불가능"
