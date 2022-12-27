@@ -16,7 +16,42 @@ open class LibraryWorkForMember(var id:String, var pwd:String) {
         }
     }
 
-    fun searchBook() {} //name, author
+    fun searchBook(task: String) {
+        when (task) {
+            //책이름
+            "1" -> {
+                var bookName = MemberPrintFormat.SEARCHBOOK.print("askBookName")
+                if (LibraryDataBase.bookList.none { it.name == bookName }) {
+                    MemberPrintFormat.RETURNBOOK.print("noBook")
+                    return
+                }
+                MemberPrintFormat.SEARCHBOOK.print("bookList")
+                LibraryDataBase.bookList.filter { it.name == bookName }.forEach {
+                    println("➡️ ${it.name} | ${it.author} | ${it.checkOut}")
+                }
+            }
+
+            "2" -> {
+                var author = MemberPrintFormat.SEARCHBOOK.print("askAuthor")
+
+                if (LibraryDataBase.bookList.none { it.author == author }) {
+                    MemberPrintFormat.RETURNBOOK.print("noBook")
+                    return
+                }
+                MemberPrintFormat.SEARCHBOOK.print("bookList")
+                LibraryDataBase.bookList.filter { it.author == author }.forEach {
+                    println("➡️ ${it.name} | ${it.author} | ${it.checkOut}")
+                }
+            }
+
+            "3" -> {
+                MemberPrintFormat.SEARCHBOOK.print("bookList")
+                LibraryDataBase.bookList.forEach {
+                    println("➡️ ${it.name} | ${it.author} | ${it.checkOut}")
+                }
+            }
+        }
+    }
 
     fun borrowBook(task: String) {
         when (task) {

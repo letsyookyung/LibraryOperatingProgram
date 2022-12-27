@@ -11,7 +11,6 @@ class PeopleInformationRegister() {
 //    fun search()
     companion object {
         fun register(id: String, pwd: String, type: String) {
-
             if (type == "관리자") {
                 LibraryDataBase.managerList.add(LibraryDataBase.PeopleInfo(id, pwd, type))
                 println("관리자 ${id} 등록 완료")
@@ -24,7 +23,5 @@ class PeopleInformationRegister() {
         }
     }
 }
-
-
 
 

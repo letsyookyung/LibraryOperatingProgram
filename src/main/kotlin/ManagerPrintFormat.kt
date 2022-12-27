@@ -19,20 +19,15 @@ enum class ManagerPrintFormat(val task: String) : Printable {
         }
     },
 
-    CHECKBOOKLIST("task") {
-        override fun <T> print(task: T) : T {
-            println("\n📚전체 도서 목록: ")
-            LibraryDataBase.bookList.forEach { item ->
-                println("➡️ ${item.name} | ${item.author} | ${item.checkOut} ")
-            }
-            return "" as T
-        }
-    },
-
     UPDATEBOOKLISTSTATUS("task"){
         override fun <T> print(task: T) : T {
             when(task){
                 "menu" -> {
+                    println("\n\uD83D\uDE4F원하는 상세 업무를 선택하세요." + "\n1.도서 대여" + "\n2.도서 반납")
+                    var input = sc.nextLine()
+                    return input as T
+                }
+                "byWhichField" -> {
                     println("\n\uD83D\uDE4F원하는 상세 업무를 선택하세요." + "\n1.도서 대여" + "\n2.도서 반납")
                     var input = sc.nextLine()
                     return input as T

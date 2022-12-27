@@ -71,7 +71,7 @@ fun main(args: Array<String>) = with(System.`in`.bufferedReader()) {
 
                         when (task) {
                             "1" -> lwmb.printMyCheckOutStatus()
-                            "2" -> lwmb.searchBook()
+                            "2" -> lwmb.searchBook(MemberPrintFormat.SEARCHBOOK.print("byWhichField"))
                             "3" -> lwmb.borrowBook(MemberPrintFormat.BORROWBOOK.print("menu"))
                             "4" -> lwmb.returnBook(MemberPrintFormat.RETURNBOOK.print("askBookName"))
                             "5" -> {

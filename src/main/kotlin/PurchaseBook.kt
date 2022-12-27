@@ -35,7 +35,7 @@ open class PurchaseBook {
     private fun updateBalance(bookName: String, bookAuthor: String, price: String) {
         LibraryDataBase.purchaseHistoryTable.add(LibraryDataBase.BookInfo(bookName, bookAuthor, price.toInt(),"대여 가능")
             .apply{remainBalance = totalBalance -price.toInt()})
-        totalBalance-=price.toInt()
+        totalBalance -= price.toInt()
         }
     }
 

@@ -20,20 +20,28 @@ enum class MemberPrintFormat(val task: String) : Printable {
         }
     },
 
-    PRINTMYCHECKOUTSTATUS("task") {
-        override fun <T> print(task: T): T {
-            var idx = task.toString()
-            println("\n📚나의 도서 대여/반납 현황: ")
-            LibraryDataBase.memberList[idx.toInt()].checkOutHistory.forEach { item ->
-                println("➡️ ${item.date} | ${item.book} | ${item.lastStatus} ")
-            }
-            return "" as T
-        }
-    },
-
     SEARCHBOOK("task") {
         override fun <T> print(task: T): T {
             when(task) {
+                "byWhichField" -> {
+                    println("\n\uD83D\uDE4F어떤 필드로 검색하시겠습니까?" + "\n1.도서명" + "\n2.저자명" + "\n3.전체 도서 목록")
+                    var input = sc.nextLine()
+                    return input as T
+                }
+                "askBookName" -> {
+                    println("\n\uD83D\uDCDA도서명을 입력하세요.")
+                    var input = sc.nextLine()
+                    return input as T
+                }
+                "askAuthor" -> {
+                    println("\n\uD83D\uDCDA저장명을 입력하세요.")
+                    var input = sc.nextLine()
+                    return input as T
+                }
+                "bookList" -> {
+                    println("\n📚도서 목록 : ")
+                }
+
 
             }
             return "" as T
