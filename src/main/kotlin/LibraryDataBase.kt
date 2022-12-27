@@ -24,7 +24,7 @@ class LibraryDataBase {
             BookInfo("hello","ivy",20000, "대여 불가능"),
             BookInfo("tobabo","anderson",20000, "대여 가능"),
             BookInfo("carrot","oscar",20000, "대여 가능"),
-            BookInfo("insurance","wannee",20000, "대여 가능"),
+            BookInfo("insurance","wanee",20000, "대여 가능"),
             BookInfo("monday","maeve",20000, "대여 불가능"),
             BookInfo("tuesday","adele",20000, "대여 가능"),
             BookInfo("wednesday","rex",20000, "대여 가능"),

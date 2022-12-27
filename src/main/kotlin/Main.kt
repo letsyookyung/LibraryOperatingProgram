@@ -73,7 +73,7 @@ fun main(args: Array<String>) = with(System.`in`.bufferedReader()) {
                             "1" -> lwmb.printMyCheckOutStatus()
                             "2" -> lwmb.searchBook()
                             "3" -> lwmb.borrowBook(MemberPrintFormat.BORROWBOOK.print("menu"))
-//                            "4" -> lwmb.returnBook()
+                            "4" -> lwmb.returnBook(MemberPrintFormat.RETURNBOOK.print("askBookName"))
                             "5" -> {
                                 modeChangeFlag = true
                                 break@taskLoop

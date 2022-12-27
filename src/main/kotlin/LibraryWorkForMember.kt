@@ -50,11 +50,16 @@ open class LibraryWorkForMember(var id:String, var pwd:String) {
                     return
                 }
 
+                if (!isAvailable) {
+                    println("이 도서는 대여 불가능 상태입니다. \n")
+                    return
+                }
+
                 println("번호는 ${LibraryDataBase.bookList.size - 1}를 벗어날 수 없으니 주의해주세요.\n번호 입력: ")
 
                 var idx = sc.nextLine()
 
-                if (errorByAnyChance(isAvailable, bookName = bookName, input = idx)) {
+                if (errorByAnyChance(bookName = bookName, input = idx)) {
                     LibraryDataBase.bookList[idx.toInt()].checkOut = "대여 불가능"
                     ManagerPrintFormat.UPDATEBOOKLISTSTATUS.print("checkOutAccept")
                     for (j in 0 until LibraryDataBase.memberList.size) {
@@ -95,11 +100,16 @@ open class LibraryWorkForMember(var id:String, var pwd:String) {
                     return
                 }
 
+                if (!isAvailable) {
+                    println("이 도서는 대여 불가능 상태입니다. \n")
+                    return
+                }
+
                 println("번호는 ${LibraryDataBase.bookList.size - 1}를 벗어날 수 없으니 주의해주세요.\n번호 입력: ")
 
                 var idx = sc.nextLine()
 
-                if (errorByAnyChance(isAvailable, author = author, input = idx)) {
+                if (errorByAnyChance(author = author, input = idx)) {
                     ManagerPrintFormat.UPDATEBOOKLISTSTATUS.print("checkOutAccept")
                     for (j in 0 until LibraryDataBase.memberList.size) {
                         if (LibraryDataBase.memberList[j].id == id) {
@@ -117,10 +127,31 @@ open class LibraryWorkForMember(var id:String, var pwd:String) {
         }
     }
 
-    fun returnBook() {}
+    fun returnBook(bookName:String) {
+
+        var isExisted = false
+        var isAvailable = true
+        var returnBookList = mutableListOf<String>()
+
+        for (i in 0 until LibraryDataBase.bookList.size) {
+            if (LibraryDataBase.bookList[i].name == bookName) {
+                isExisted = true
+                if (LibraryDataBase.bookList[i].checkOut == "대여 불가능") {
+                    isAvailable = false
+                    break
+                }
+            }
+        }
+
+        if (!isExisted) {
+            MemberPrintFormat.RETURNBOOK.print("noBook")
+            return
+        }
+
+    }
 
 
-    private fun errorByAnyChance(isAvailable:Boolean, bookName:String="", author:String="", input:String): Boolean {
+    private fun errorByAnyChance(bookName:String="", author:String="", input:String): Boolean {
 
             var idx = input
 
@@ -141,11 +172,6 @@ open class LibraryWorkForMember(var id:String, var pwd:String) {
 
                 if (LibraryDataBase.bookList[idx.toInt()].author != author && bookName == ""){
                     println("도서명과 입력하신 해당 도서 번호가 일치하지 않습니다. \n")
-                    return false
-                }
-
-                if (!isAvailable) {
-                    println("이 도서는 대여 불가능 상태입니다. \n")
                     return false
                 }
 

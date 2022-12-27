@@ -74,6 +74,13 @@ enum class MemberPrintFormat(val task: String) : Printable {
     RETURNBOOK("task") {
         override fun <T> print(task: T): T {
             when(task) {
+                "askBookName" -> {
+                    println("\n\uD83D\uDCDA도서명을 입력하세요.")
+                    var input = sc.nextLine()
+                    return input as T
+                }
+                "noBook" -> println("🙏입력하신 도서명 혹은 저자명을 찾지 못합니다. 다시 확인해주세요.")
+
 
             }
             return "" as T

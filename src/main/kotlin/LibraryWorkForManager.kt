@@ -14,7 +14,6 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
 
         var isExisted = false
         var isAvailable = true
-        var isvalidId = false
 
         when (task) {
             //대여
@@ -44,11 +43,16 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
                     return
                 }
 
+                if (!isAvailable) {
+                    println("이 도서는 대여 불가능 상태입니다. \n")
+                    return
+                }
+
                 println("번호는 ${LibraryDataBase.bookList.size - 1}를 벗어날 수 없으니 주의해주세요.\n번호 입력: ")
 
                 var idx = sc.nextLine()
 
-                if (errorByAnyChance(isAvailable, bookName = bookName, input = idx)) {
+                if (errorByAnyChance(bookName = bookName, input = idx)) {
 
                     var memberID = askId()
 
@@ -81,7 +85,7 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
 
     }
 
-    private fun errorByAnyChance(isAvailable:Boolean, bookName:String="", author:String="", input:String): Boolean {
+    private fun errorByAnyChance(bookName:String="", author:String="", input:String): Boolean {
 
         var idx = input
 
@@ -102,11 +106,6 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
 
             if (LibraryDataBase.bookList[idx.toInt()].author != author && bookName == ""){
                 println("도서명과 입력하신 해당 도서 번호가 일치하지 않습니다. \n")
-                return false
-            }
-
-            if (!isAvailable) {
-                println("이 도서는 대여 불가능 상태입니다. \n")
                 return false
             }
 
