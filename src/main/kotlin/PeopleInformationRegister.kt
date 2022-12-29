@@ -1,14 +1,5 @@
 package library
 class PeopleInformationRegister() {
-
-
-    //    fun put()
-//
-//    fun modify()
-//
-//    fun remove()
-//
-//    fun search()
     companion object {
         fun register(id: String, pwd: String, type: String) {
             if (type == "관리자") {

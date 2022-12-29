@@ -33,10 +33,13 @@ class LibraryDataBase {
 
         var bookList = purchaseHistoryTable
 
+        var totalBalance = 100000
+
+
     }
 
     data class BookInfo(val name: String, val author: String, var price: Int, var checkOut: String = "대여 가능") {
-        var remainBalance:Int = PurchaseBook.totalBalance
+        var remainBalance:Int = totalBalance
     }
     data class PeopleInfo(val id: String, val pwd: String, val type: String) {
         var checkOutHistory = mutableListOf<HistoryByPersonInfo>()
