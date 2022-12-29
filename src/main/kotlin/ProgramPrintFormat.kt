@@ -1,10 +1,5 @@
 package library
 import java.util.*
-
-interface Printable {
-    fun <T> print(task:T): T
-}
-
 enum class ProgramPrintFormat(val task: String) : Printable {
 
     START("task") {
