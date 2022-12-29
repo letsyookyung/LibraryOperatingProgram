@@ -4,9 +4,8 @@ import java.util.*
 
 open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook() {
 
-    var sc = Scanner(System.`in`)
+    private var sc = Scanner(System.`in`)
 
-    //
     fun checkBookList() {
         println("\n📚전체 도서 목록: ")
         LibraryDataBase.bookList.forEach { item ->
@@ -16,108 +15,27 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
 
     fun updateBookListStatus(task: String) {
 
-        var isAvailable = true
-
         when (task) {
             //대여
             "1" -> {
-                var task = MemberPrintFormat.BORROWBOOK.print("menu")
-                when (task) {
+                when (MemberPrintFormat.BORROWBOOK.print("menu")) {
                     //책이름
                     "1" -> {
-                        var bookName = MemberPrintFormat.BORROWBOOK.print("askBookName")
+                        val bookName = MemberPrintFormat.BORROWBOOK.print("askBookName")
 
-                        if (LibraryDataBase.bookList.none { it.name == bookName }) {
-                            MemberPrintFormat.RETURNBOOK.print("noBook")
-                            return
-                        }
-                        if (LibraryDataBase.bookList.filter { it.name == bookName }.none { it.checkOut == "대여 가능" }) {
-                            println("대여 가능한 도서가 없는 상태입니다. 혹시 모르니 도서명을 확인 해보세요. \n ")
-                            return
-                        }
+                        val filteredBookList = LibraryDataBase.bookList.filter { it.name == bookName }
 
-                        MemberPrintFormat.BORROWBOOK.print("selectBook1")
-                        LibraryDataBase.bookList.filter { it.name == bookName }.forEach {
-                            println("➡️ ${it.name} | ${it.author} | ${it.checkOut}")
-                        }
-                        println("대여하시겠습니까? Y/N")
-                        var input = sc.nextLine()
-                        when (input.toUpperCase()) {
-                            "Y" -> {
-                                var memberID = askId()
-                                if (memberID == "") return
+                        checkIfExist("bookName", bookName, filteredBookList)
 
-                                LibraryDataBase.memberList.filter { it.id == memberID }[0].checkOutHistory.add(
-                                    LibraryDataBase.HistoryByPersonInfo(LocalDateTime.now(), bookName, "대여중")
-                                )
-                                LibraryDataBase.bookList.filter { it.name == bookName }[0].checkOut = "대여 불가능"
-                                println("\n\uD83D\uDCDA대여 완료 ^^")
-                            }
-                        }
+                        if (filteredBookList.size == 1) oneBookSearched(filteredBookList)
                     }
                     //저자명
                     "2" -> {
-                        var author = MemberPrintFormat.BORROWBOOK.print("askAuthor")
+                        val author = MemberPrintFormat.BORROWBOOK.print("askAuthor")
+                        val filteredBookList = LibraryDataBase.bookList.filter { it.author == author }
 
-                        if (LibraryDataBase.bookList.none { it.author == author }) {
-                            MemberPrintFormat.RETURNBOOK.print("noBook")
-                            return
-                        }
-                        if (LibraryDataBase.bookList.filter { it.author == author }.none { it.checkOut == "대여 가능" }) {
-                            println("대여 가능한 도서가 없는 상태입니다. 혹시 모르니 도서명을 확인 해보세요. \n ")
-                            return
-                        }
-
-                        MemberPrintFormat.BORROWBOOK.print("selectBook")
-                        if (LibraryDataBase.bookList.filter { it.author == author }.size == 1) {
-                            LibraryDataBase.bookList.filter { it.author == author }.forEach {
-                                println("➡️ ${it.name} | ${it.author} | ${it.checkOut}")
-                            }
-                            println("대여하시겠습니까? Y/N")
-                            var input = sc.nextLine()
-                            when (input.toUpperCase()) {
-                                "Y" -> {
-                                    var memberID = askId()
-                                    if (memberID == "") return
-
-                                    LibraryDataBase.memberList.filter { it.id == memberID }[0].checkOutHistory.add(
-                                        LibraryDataBase.HistoryByPersonInfo(
-                                            LocalDateTime.now(),
-                                            LibraryDataBase.bookList.filter { it.author == author }[0].name, "대여중"
-                                        )
-                                    )
-                                    LibraryDataBase.bookList.filter { it.name == LibraryDataBase.bookList.filter { it.author == author }[0].name }[0].checkOut =
-                                        "대여 불가능"
-                                    println("\n\uD83D\uDCDA대여 완료 ^^")
-                                    return
-                                }
-                            }
-                            return
-                        }
-
-                        MemberPrintFormat.BORROWBOOK.print("selectBook2")
-                        LibraryDataBase.bookList.filter { it.author == author }
-                            .forEach { println("➡️ ${it.name} | ${it.author} | ${it.checkOut}") }
-                        println("도서명 : ")
-                        var bookName = sc.nextLine()
-                        if (LibraryDataBase.bookList.none { it.name == bookName }) {
-                            MemberPrintFormat.RETURNBOOK.print("noBook")
-                            return
-                        }
-
-                        if (LibraryDataBase.bookList.filter { it.name == bookName }.none { it.checkOut == "대여 가능" }) {
-                            println("대여 가능한 도서가 없는 상태입니다. 혹시 모르니 도서명을 확인 해보세요. \n ")
-                            return
-                        }
-
-                        var memberID = askId()
-                        if (memberID == "") return
-
-                        LibraryDataBase.memberList.filter { it.id == memberID }[0].checkOutHistory.add(
-                            LibraryDataBase.HistoryByPersonInfo(LocalDateTime.now(), bookName, "대여중")
-                        )
-                        LibraryDataBase.bookList.filter { it.name == bookName }[0].checkOut = "대여 불가능"
-                        println("\n\uD83D\uDCDA대여 완료 ^^")
+                        if (filteredBookList.size == 1) oneBookSearched(filteredBookList)
+                        else moreThanOneBookSearched(filteredBookList)
 
                     }
                 }
@@ -125,37 +43,28 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
 
             //반납
             "2" -> {
-                var bookName = ManagerPrintFormat.UPDATEBOOKLISTSTATUS.print("askBookName")
-                if (LibraryDataBase.bookList.none { it.name == bookName }) {
-                    MemberPrintFormat.RETURNBOOK.print("noBook")
-                    return
-                }
-                if (LibraryDataBase.bookList.filter { it.name == bookName }.none { it.checkOut == "대여 불가능" }) {
-                    println("이 도서는 대여 가능 상태입니다. 도서명을 확인 해보세요. \n ")
-                    return
-                }
-                var memberID = askId()
+                val bookName = ManagerPrintFormat.UPDATEBOOKLISTSTATUS.print("askBookName")
+
+                val filteredBookList = LibraryDataBase.bookList.filter { it.name == bookName }
+                checkIfExist("bookName", bookName,filteredBookList )
+
+                val memberID = askId()
                 if (memberID == "") return
 
-                var returnBookListById =
+                val returnBookListById =
                     LibraryDataBase.memberList.filter { it.id == memberID }[0].checkOutHistory.groupBy { it.book == bookName }[true]
                 if (returnBookListById != null) {
                     if (returnBookListById.last().lastStatus == "대여중") {
-
                         LibraryDataBase.memberList.filter { it.id == memberID }[0].checkOutHistory.add(
                             LibraryDataBase.HistoryByPersonInfo(LocalDateTime.now(), bookName, "반납 완료")
                         )
                         LibraryDataBase.bookList.filter { it.name == bookName }[0].checkOut = "대여 가능"
                         println("반납 완료 ^^")
-                    } else {
-                        println("해당 도서를 이미 반납하셨습니다.")
-                    }
-                } else {
-                    println("반납 요청하신 도서를 대여중이지 않습니다.")
-                }
+                    } else println("해당 도서를 이미 반납하셨습니다.")
+                } else println("반납 요청하신 도서를 대여중이지 않습니다.")
             }
-
         }
+
     }
 
 
@@ -163,7 +72,7 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
 
         var checkId = 0
         while (checkId <= 2) {
-            var memberID = ManagerPrintFormat.UPDATEBOOKLISTSTATUS.print("askID")
+            val memberID = ManagerPrintFormat.UPDATEBOOKLISTSTATUS.print("askID")
             if (LibraryDataBase.memberList.none { it.id == memberID }) {
                 println("입력하신 멤버의 ID는 존재하지 않습니다. 다시 확인하여 입력해주세요.")
                 checkId += 1
@@ -173,4 +82,78 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
         }
         return ""
     }
+
+    private fun checkIfExist(field:String, value:String, filteredBookList:List<LibraryDataBase.BookInfo>) {
+        when (field) {
+            "bookName" -> {
+                if (LibraryDataBase.bookList.none { it.name == value }) {
+                    MemberPrintFormat.RETURNBOOK.print("noBook")
+                    return
+                }
+            }
+
+            "author" -> {
+                if (LibraryDataBase.bookList.none { it.author == value }) {
+                    MemberPrintFormat.RETURNBOOK.print("noBook")
+                    return
+                }
+            }
+        }
+
+        if (filteredBookList.none { it.checkOut == "대여 가능" }) {
+            println("대여 가능한 도서가 없는 상태입니다. 혹시 모르니 도서명을 확인 해보세요. \n ")
+            return
+        }
+    }
+
+    private fun oneBookSearched(filteredBookList:List<LibraryDataBase.BookInfo>) {
+        MemberPrintFormat.BORROWBOOK.print("selectBook")
+        filteredBookList.forEach {
+            println("➡️ ${it.name} | ${it.author} | ${it.checkOut}")
+        }
+
+        println("대여하시겠습니까? Y/N")
+        val input = sc.nextLine()
+        when (input.toUpperCase()) {
+            "Y" -> {
+                var memberID = askId()
+                if (memberID == "") return
+
+                LibraryDataBase.memberList.filter { it.id == memberID }[0].checkOutHistory.add(
+                    LibraryDataBase.HistoryByPersonInfo(LocalDateTime.now(), filteredBookList[0].name, "대여중"))
+                LibraryDataBase.bookList.filter { it.name == filteredBookList[0].name }[0].checkOut = "대여 불가능"
+                println("\n\uD83D\uDCDA대여 완료 ^^")
+                return
+            }
+        }
+        return
+
+    }
+
+    private fun moreThanOneBookSearched(filteredBookList:List<LibraryDataBase.BookInfo>) {
+        MemberPrintFormat.BORROWBOOK.print("selectBook2")
+        filteredBookList.forEach {
+            println("➡️ ${it.name} | ${it.author} | ${it.checkOut}")
+        }
+
+        println("도서명:")
+        val bookName = sc.nextLine()
+
+        val memberID = askId()
+        if (memberID == "") return
+
+        LibraryDataBase.memberList.filter { it.id == memberID }[0].checkOutHistory.add(
+            LibraryDataBase.HistoryByPersonInfo(LocalDateTime.now(), bookName, "대여중")
+        )
+        LibraryDataBase.bookList.filter { it.name == bookName }[0].checkOut = "대여 불가능"
+        println("\n\uD83D\uDCDA대여 완료 ^^")
+    }
+
 }
+
+
+
+
+
+
+
