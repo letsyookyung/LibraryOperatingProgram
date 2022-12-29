@@ -22,10 +22,10 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
                     //책이름
                     "1" -> {
                         val bookName = MemberPrintFormat.BORROWBOOK.print("askBookName")
-
                         val filteredBookList = LibraryDataBase.bookList.filter { it.name == bookName }
 
-                        checkIfExist("bookName", bookName, filteredBookList)
+                        checkIfExists("bookName", bookName)
+                        checkIfAvailable("checkOut", filteredBookList)
 
                         if (filteredBookList.size == 1) oneBookSearched(filteredBookList)
                     }
@@ -33,6 +33,9 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
                     "2" -> {
                         val author = MemberPrintFormat.BORROWBOOK.print("askAuthor")
                         val filteredBookList = LibraryDataBase.bookList.filter { it.author == author }
+
+                        checkIfExists("author", author)
+                        checkIfAvailable("checkOut", filteredBookList)
 
                         if (filteredBookList.size == 1) oneBookSearched(filteredBookList)
                         else moreThanOneBookSearched(filteredBookList)
@@ -46,7 +49,9 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
                 val bookName = ManagerPrintFormat.UPDATEBOOKLISTSTATUS.print("askBookName")
 
                 val filteredBookList = LibraryDataBase.bookList.filter { it.name == bookName }
-                checkIfExist("bookName", bookName,filteredBookList )
+
+                checkIfExists("bookName", bookName,)
+                checkIfAvailable("return",filteredBookList)
 
                 val memberID = askId()
                 if (memberID == "") return
@@ -69,7 +74,6 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
 
 
     private fun askId(): String {
-
         var checkId = 0
         while (checkId <= 2) {
             val memberID = ManagerPrintFormat.UPDATEBOOKLISTSTATUS.print("askID")
@@ -83,7 +87,7 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
         return ""
     }
 
-    private fun checkIfExist(field:String, value:String, filteredBookList:List<LibraryDataBase.BookInfo>) {
+    private fun checkIfExists(field:String, value:String) {
         when (field) {
             "bookName" -> {
                 if (LibraryDataBase.bookList.none { it.name == value }) {
@@ -91,7 +95,6 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
                     return
                 }
             }
-
             "author" -> {
                 if (LibraryDataBase.bookList.none { it.author == value }) {
                     MemberPrintFormat.RETURNBOOK.print("noBook")
@@ -99,12 +102,25 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
                 }
             }
         }
+    }
 
-        if (filteredBookList.none { it.checkOut == "대여 가능" }) {
-            println("대여 가능한 도서가 없는 상태입니다. 혹시 모르니 도서명을 확인 해보세요. \n ")
-            return
+    private fun checkIfAvailable(field:String, filteredBookList:List<LibraryDataBase.BookInfo>) {
+        when (field) {
+            "checkOut" -> {
+                if (filteredBookList.none { it.checkOut == "대여 가능" }) {
+                    println("대여 가능한 도서가 없는 상태입니다. 혹시 모르니 도서명을 확인 해보세요. \n ")
+                    return
+                }
+            }
+            "return" -> {
+                if (filteredBookList.none { it.checkOut == "대여 불가능" }) {
+                    println("해당 책은 대여 상태가 아닙니다. 혹시 모르니 도서명을 확인 해보세요. \n ")
+                    return
+                    }
+                }
         }
     }
+
 
     private fun oneBookSearched(filteredBookList:List<LibraryDataBase.BookInfo>) {
         MemberPrintFormat.BORROWBOOK.print("selectBook")
@@ -121,6 +137,7 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
 
                 LibraryDataBase.memberList.filter { it.id == memberID }[0].checkOutHistory.add(
                     LibraryDataBase.HistoryByPersonInfo(LocalDateTime.now(), filteredBookList[0].name, "대여중"))
+
                 LibraryDataBase.bookList.filter { it.name == filteredBookList[0].name }[0].checkOut = "대여 불가능"
                 println("\n\uD83D\uDCDA대여 완료 ^^")
                 return
@@ -150,6 +167,7 @@ open class LibraryWorkForManager(var id:String, var pwd:String) : PurchaseBook()
     }
 
 }
+
 
 
 

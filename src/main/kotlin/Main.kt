@@ -4,23 +4,22 @@ import kotlin.system.exitProcess
 
 
 
-fun main(args: Array<String>) = with(System.`in`.bufferedReader()) {
+fun main() = with(System.`in`.bufferedReader()) {
 
     while (true) {
 
         var modeChangeFlag = false
         var loginRetry = 0
 
-        when(ProgramPrintFormat.START.print("menu")){
+        when (ProgramPrintFormat.START.print("menu")) {
             "1" -> {
 
                 modeOut@ while(loginRetry<=2){
 
                     if (modeChangeFlag) break@modeOut
 
-                    // 로그인 물어보기
-                    var loginSet= ProgramPrintFormat.START.print("login").split(",")
-                    var lwmg = LibraryWorkForManager(loginSet[0], loginSet[1])
+                    val loginSet= ProgramPrintFormat.START.print("login").split(",")
+                    val lwmg = LibraryWorkForManager(loginSet[0], loginSet[1])
 
                     if (!ProgramOperator.login(lwmg.id, lwmg.pwd,"관리자")) {
                         loginRetry+=1
@@ -30,8 +29,7 @@ fun main(args: Array<String>) = with(System.`in`.bufferedReader()) {
 
                     taskLoop@ while(true){
                         // 원하는 업무 물어보기능
-                        var task = ManagerPrintFormat.START.print("menu")
-                        when(task){
+                        when(ManagerPrintFormat.START.print("menu")){
                             "1" -> lwmg.checkBookList()
                             "2" -> lwmg.updateBookListStatus(ManagerPrintFormat.UPDATEBOOKLISTSTATUS.print("menu"))
                             "3" -> lwmg.purchase(ManagerPrintFormat.PURCHASE.print("menu"))
@@ -55,9 +53,9 @@ fun main(args: Array<String>) = with(System.`in`.bufferedReader()) {
                     if (modeChangeFlag) break@modeOut
 
                     // 로그인 물어보기
-                    var loginSet = ProgramPrintFormat.START.print("login").split(",")
+                    val loginSet = ProgramPrintFormat.START.print("login").split(",")
 
-                    var lwmb = LibraryWorkForMember(loginSet[0], loginSet[1])
+                    val lwmb = LibraryWorkForMember(loginSet[0], loginSet[1])
 
                     if (!ProgramOperator.login(lwmb.id, lwmb.pwd,"멤버")) {
                         loginRetry += 1
@@ -67,9 +65,8 @@ fun main(args: Array<String>) = with(System.`in`.bufferedReader()) {
 
                     taskLoop@ while (true) {
                         // 원하는 업무 물어보기
-                        var task = MemberPrintFormat.START.print("menu")
 
-                        when (task) {
+                        when (MemberPrintFormat.START.print("menu")) {
                             "1" -> lwmb.printMyCheckOutStatus()
                             "2" -> lwmb.searchBook(MemberPrintFormat.SEARCHBOOK.print("byWhichField"))
                             "3" -> lwmb.borrowBook(MemberPrintFormat.BORROWBOOK.print("menu"))
@@ -89,13 +86,13 @@ fun main(args: Array<String>) = with(System.`in`.bufferedReader()) {
             }
 
             "3" -> {
-                var personInfo = ProgramPrintFormat.REGISTER.print("askPersonInfo").split(",")
+                val personInfo = ProgramPrintFormat.REGISTER.print("askPersonInfo").split(",")
                 PeopleInformationRegister.register(personInfo[1], personInfo[2], personInfo[0])
             }
             "4" -> run {
                 println("👋도서 관리 프로그램 종료")
                 exitProcess(0)
-        }
+            }
 
         }
 

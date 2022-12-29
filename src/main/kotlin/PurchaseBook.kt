@@ -1,5 +1,7 @@
 package library
 
+import DataManipulator
+
 open class PurchaseBook {
 
     fun purchase(task: String) {
@@ -23,7 +25,8 @@ open class PurchaseBook {
     }
 
     private fun updateBalance(bookName: String, bookAuthor: String, price: String) {
-        LibraryDataBase.purchaseHistoryTable.add(LibraryDataBase.BookInfo(bookName, bookAuthor, price.toInt(),"대여 가능")
+        DataManipulator.add(LibraryDataBase.purchaseHistoryTable,
+            LibraryDataBase.BookInfo(bookName, bookAuthor, price.toInt(),"대여 가능")
             .apply{remainBalance = LibraryDataBase.totalBalance -price.toInt()})
         LibraryDataBase.totalBalance -= price.toInt()
         }

@@ -12,7 +12,7 @@ enum class MemberPrintFormat(val task: String) : Printable {
                         "\n\uD83D\uDE4F번호를 선택하세요. " + "\n1.나의 도서 대여/반납 현황 보기 " + "\n2.도서 검색" + "\n3.도서 대여" +
                                 "\n4.도서 반납" + "\n5.로그아웃" + "\n6.프로그램 종료"
                     )
-                    var input = sc.nextLine()
+                    val input = sc.nextLine()
                     return input as T
                 }
             }
@@ -25,17 +25,17 @@ enum class MemberPrintFormat(val task: String) : Printable {
             when(task) {
                 "byWhichField" -> {
                     println("\n\uD83D\uDE4F어떤 필드로 검색하시겠습니까?" + "\n1.도서명" + "\n2.저자명" + "\n3.전체 도서 목록")
-                    var input = sc.nextLine()
+                    val input = sc.nextLine()
                     return input as T
                 }
                 "askBookName" -> {
                     println("\n\uD83D\uDCDA도서명을 입력하세요.")
-                    var input = sc.nextLine()
+                    val input = sc.nextLine()
                     return input as T
                 }
                 "askAuthor" -> {
                     println("\n\uD83D\uDCDA저장명을 입력하세요.")
-                    var input = sc.nextLine()
+                    val input = sc.nextLine()
                     return input as T
                 }
                 "bookList" -> {
@@ -55,17 +55,17 @@ enum class MemberPrintFormat(val task: String) : Printable {
                     println(
                         "\n어떤 항목으로 검색하시겠습니까? \n1.도서명 \n2.저자명"
                     )
-                    var input = sc.nextLine()
+                    val input = sc.nextLine()
                     return input as T
                 }
                 "askBookName" -> {
                     println("\n\uD83D\uDCDA도서명을 입력하세요.")
-                    var input = sc.nextLine()
+                    val input = sc.nextLine()
                     return input as T
                 }
                 "askAuthor" -> {
                     println("\n\uD83D\uDCDA저자명을 입력하세요.")
-                    var input = sc.nextLine()
+                    val input = sc.nextLine()
                     return input as T
                 }
                 "selectBook1" -> {
@@ -87,7 +87,7 @@ enum class MemberPrintFormat(val task: String) : Printable {
             when(task) {
                 "askBookName" -> {
                     println("\n\uD83D\uDCDA도서명을 입력하세요.")
-                    var input = sc.nextLine()
+                    val input = sc.nextLine()
                     return input as T
                 }
                 "noBook" -> println("🙏입력하신 도서명 혹은 저자명을 찾지 못합니다. 다시 확인해주세요.")
@@ -99,7 +99,7 @@ enum class MemberPrintFormat(val task: String) : Printable {
     };
 
 
-    var sc = Scanner(System.`in`)
+    val sc = Scanner(System.`in`)
 
 }
 

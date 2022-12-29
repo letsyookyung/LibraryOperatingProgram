@@ -3,6 +3,7 @@ import java.util.*
 
 enum class ManagerPrintFormat(val task: String) : Printable {
 
+
     START("task") {
         override fun <T> print(task: T): T {
             when(task) {
@@ -11,7 +12,7 @@ enum class ManagerPrintFormat(val task: String) : Printable {
                         "\n\uD83D\uDE4F원하는 업무 번호를 선택하세요. " + "\n1.전체 도서 목록 조회 " + "\n2.대여/반납 업데이트" +
                                 "\n3.도서 구매 및 도서 목록 업데이트" + "\n4.로그아웃" + "\n5.프로그램 종료"
                     )
-                    var input = sc.nextLine()
+                    val input = sc.nextLine()
                     return input as T
                 }
             }
@@ -24,22 +25,22 @@ enum class ManagerPrintFormat(val task: String) : Printable {
             when(task){
                 "menu" -> {
                     println("\n\uD83D\uDE4F원하는 상세 업무를 선택하세요." + "\n1.도서 대여" + "\n2.도서 반납")
-                    var input = sc.nextLine()
+                    val input = sc.nextLine()
                     return input as T
                 }
                 "byWhichField" -> {
                     println("\n\uD83D\uDE4F원하는 상세 업무를 선택하세요." + "\n1.도서 대여" + "\n2.도서 반납")
-                    var input = sc.nextLine()
+                    val input = sc.nextLine()
                     return input as T
                 }
                 "askBookName" -> {
                     println("\n\uD83D\uDCDA도서명을 입력하세요.")
-                    var input = sc.nextLine()
+                    val input = sc.nextLine()
                     return input as T
                 }
                 "askID" -> {
                     println("\n\uD83D\uDCDA멤버ID를 입력하세요.")
-                    var input = sc.nextLine()
+                    val input = sc.nextLine()
                     return input as T
                 }
                 "checkOutDeny" -> println("\n\uD83D\uDE4F해당 도서는 대여 불가능합니다. 죄송합니당")
@@ -56,13 +57,13 @@ enum class ManagerPrintFormat(val task: String) : Printable {
             when (task) {
                 "menu" -> {
                     println("\n\uD83D\uDE4F원하는 상세 업무를 선택하세요." + "\n1.도서 구매" + "\n2.도서 구매 및 잔액 내역 확인")
-                    var input = sc.nextLine()
+                    val input = sc.nextLine()
                     return input as T
                 }
 
                 "askBookInfo" -> {
                     println("\n\uD83D\uDE4F구매 할 도서명/저자/가격 입력해주세요. (ex. 비하인드 더 도어/ivy/16000)")
-                    var input = sc.nextLine()
+                    val input = sc.nextLine()
                     return input as T
                 }
 
@@ -80,8 +81,7 @@ enum class ManagerPrintFormat(val task: String) : Printable {
         }
     };
 
-
-    var sc = Scanner(System.`in`)
+    val sc = Scanner(System.`in`)
 
 }
 

@@ -1,7 +1,7 @@
 package library
 
 
-class ProgramOperator(var id: String, var pwd: String, var type: String) {
+class ProgramOperator() {
 
     companion object {
         private var checkList = mutableListOf<LibraryDataBase.PeopleInfo>()
@@ -13,18 +13,13 @@ class ProgramOperator(var id: String, var pwd: String, var type: String) {
             }
 
             for (i in 0 until checkList.size) {
-                if (checkList[i].id == id) {
-                    return checkList[i].pwd == pwd
-                }
+                if (checkList[i].id == id) return checkList[i].pwd == pwd
             }
             return false
         }
     }
 
-
-//    fun programExit()
-
-    }
+}
 
 
 
