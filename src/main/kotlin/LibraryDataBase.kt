@@ -40,9 +40,7 @@ class LibraryDataBase {
     }
 
 
-    data class BookInfo(val name: String, val author: String, var price: Int, var checkOut: String = "대여 가능") {
-        var remainBalance = totalBalance
-    }
+    data class BookInfo(val name: String, val author: String, var price: Int, var checkOut: String = "대여 가능")
 
     data class PeopleInfo(val id: String, val pwd: String, val type: String) {
         var checkOutHistory = mutableListOf<HistoryByPersonInfo>()

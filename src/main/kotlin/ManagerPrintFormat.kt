@@ -70,9 +70,8 @@ enum class ManagerPrintFormat(val task: String) : Printable {
                 "addInBookList" -> println("\uD83D\uDCD9새로 구매한 도서 추가 완료.")
                 "printPurchaseHistory" -> {
                     println("\n\uD83D\uDCB6도서 구매 및 잔액 내역 : ")
-                    LibraryDataBase.purchaseHistoryTable.forEach { item ->
-                        println("➡️ ${item.name} | ${item.author} | ${item.price} | ${item.remainBalance}")
-                    }
+                    LibraryDataBase.purchaseHistoryTable.forEach { item -> println("➡️ ${item.name} | ${item.author} | ${item.price} ") }
+                    println("\n❔현재 잔액❔${LibraryDataBase.totalBalance}")
                 }
 
                 "noMoney" -> println("\uD83D\uDCB6도서 구매 예산을 초과합니다. 예산 내의 책을 구매해주세요. ")

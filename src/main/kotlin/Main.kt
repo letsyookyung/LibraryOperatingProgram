@@ -64,13 +64,11 @@ fun main() = with(System.`in`.bufferedReader()) {
                     }
 
                     taskLoop@ while (true) {
-                        // 원하는 업무 물어보기
-
                         when (MemberPrintFormat.START.print("menu")) {
                             "1" -> lwmb.printMyCheckOutStatus()
                             "2" -> lwmb.searchBook(MemberPrintFormat.SEARCHBOOK.print("byWhichField"))
                             "3" -> lwmb.borrowBook(MemberPrintFormat.BORROWBOOK.print("menu"))
-                            "4" -> lwmb.returnBook(MemberPrintFormat.RETURNBOOK.print("askBookName"))
+                            "4" -> lwmb.returnBook()
                             "5" -> {
                                 modeChangeFlag = true
                                 break@taskLoop
