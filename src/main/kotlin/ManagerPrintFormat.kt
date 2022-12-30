@@ -1,11 +1,10 @@
 package library
+
 import java.util.*
 
 enum class ManagerPrintFormat(val task: String) : Printable {
-
-
     START("task") {
-        override fun <T> print(task: T): T {
+        override fun <T> print(task: T) : T {
             when(task) {
                 "menu" -> {
                     println(
@@ -53,27 +52,24 @@ enum class ManagerPrintFormat(val task: String) : Printable {
     },
 
     PURCHASE("task") {
-        override fun <T> print(task: T): T {
+        override fun <T> print(task: T) : T {
             when (task) {
                 "menu" -> {
                     println("\n\uD83D\uDE4F원하는 상세 업무를 선택하세요." + "\n1.도서 구매" + "\n2.도서 구매 및 잔액 내역 확인")
                     val input = sc.nextLine()
                     return input as T
                 }
-
                 "askBookInfo" -> {
                     println("\n\uD83D\uDE4F구매 할 도서명/저자/가격 입력해주세요. (ex. 비하인드 더 도어/ivy/16000)")
                     val input = sc.nextLine()
                     return input as T
                 }
-
                 "addInBookList" -> println("\uD83D\uDCD9새로 구매한 도서 추가 완료.")
                 "printPurchaseHistory" -> {
                     println("\n\uD83D\uDCB6도서 구매 및 잔액 내역 : ")
                     LibraryDataBase.purchaseHistoryTable.forEach { item -> println("➡️ ${item.name} | ${item.author} | ${item.price} ") }
                     println("\n❔현재 잔액❔${LibraryDataBase.totalBalance}")
                 }
-
                 "noMoney" -> println("\uD83D\uDCB6도서 구매 예산을 초과합니다. 예산 내의 책을 구매해주세요. ")
             }
             return "" as T

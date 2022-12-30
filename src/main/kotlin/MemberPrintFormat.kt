@@ -1,11 +1,9 @@
 package library
 import java.util.*
 
-
 enum class MemberPrintFormat(val task: String) : Printable {
-
     START("task") {
-        override fun <T> print(task: T): T {
+        override fun <T> print(task: T) : T {
             when(task) {
                 "menu" -> {
                     println(
@@ -21,7 +19,7 @@ enum class MemberPrintFormat(val task: String) : Printable {
     },
 
     SEARCHBOOK("task") {
-        override fun <T> print(task: T): T {
+        override fun <T> print(task: T) : T {
             when(task) {
                 "byWhichField" -> {
                     println("\n\uD83D\uDE4F어떤 필드로 검색하시겠습니까?" + "\n1.도서명" + "\n2.저자명" + "\n3.전체 도서 목록")
@@ -41,20 +39,16 @@ enum class MemberPrintFormat(val task: String) : Printable {
                 "bookList" -> {
                     println("\n📚도서 목록 : ")
                 }
-
-
             }
             return "" as T
         }
     },
 
     BORROWBOOK("task") {
-        override fun <T> print(task: T): T {
+        override fun <T> print(task: T) : T {
             when(task) {
                 "menu" -> {
-                    println(
-                        "\n어떤 항목으로 검색하시겠습니까? \n1.도서명 \n2.저자명"
-                    )
+                    println("\n어떤 항목으로 검색하시겠습니까? \n1.도서명 \n2.저자명")
                     val input = sc.nextLine()
                     return input as T
                 }
@@ -71,19 +65,15 @@ enum class MemberPrintFormat(val task: String) : Printable {
                 "selectBook1" -> {
                     println("\n📚대여 가능한 도서 목록 : ")
                 }
-                "selectBook2" -> {
-                    println("\n두개 이상의 도서가 검색 되었습니다. ✓도서명✓으로 다시 입력해주세요!\n📚대여 가능한 도서 목록 :")
-                    }
+                "selectBook2" -> println("\n두개 이상의 도서가 검색 되었습니다. ✓도서명✓으로 다시 입력해주세요!\n📚대여 가능한 도서 목록 :")
                 "noBook" -> println("🙏입력하신 도서명 혹은 저자명을 찾지 못합니다. 다시 확인해주세요.")
-
-
             }
             return "" as T
         }
     },
 
     RETURNBOOK("task") {
-        override fun <T> print(task: T): T {
+        override fun <T> print(task: T) : T {
             when(task) {
                 "askBookName" -> {
                     println("\n\uD83D\uDCDA도서명을 입력하세요.")
@@ -91,13 +81,10 @@ enum class MemberPrintFormat(val task: String) : Printable {
                     return input as T
                 }
                 "noBook" -> println("🙏입력하신 도서명 혹은 저자명을 찾지 못합니다. 다시 확인해주세요.")
-
-
             }
             return "" as T
         }
     };
-
 
     val sc = Scanner(System.`in`)
 

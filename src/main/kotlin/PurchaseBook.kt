@@ -1,7 +1,6 @@
 package library
 
 open class PurchaseBook {
-
     fun purchase(task: String) {
         when (task) {
             "1" -> {
@@ -20,9 +19,9 @@ open class PurchaseBook {
     }
 
     private fun updateBalance(bookName: String, bookAuthor: String, price: String) {
-        LibraryDataBase.purchaseHistoryTable.add(LibraryDataBase.BookInfo(bookName, bookAuthor, price.toInt(),"대여 가능"))
+        LibraryDataBase.purchaseHistoryTable.add(LibraryDataBase.BookInfo(bookName, bookAuthor, price.toInt(), "대여 가능"))
         LibraryDataBase.totalBalance -= price.toInt()
-        }
     }
+}
 
 

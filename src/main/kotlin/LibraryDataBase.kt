@@ -2,11 +2,8 @@ package library
 
 import java.time.LocalDateTime
 
-
 class LibraryDataBase {
-
     companion object {
-
         val managerList = mutableListOf(
             PeopleInfo("ron", "1234", "관리자")
         )
@@ -47,6 +44,5 @@ class LibraryDataBase {
     }
 
     data class HistoryByPersonInfo(var date: LocalDateTime, val book: String, val lastStatus: String)
-
 
 }
