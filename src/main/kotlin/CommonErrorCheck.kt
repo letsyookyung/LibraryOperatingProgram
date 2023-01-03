@@ -21,7 +21,7 @@ class CommonErrorCheck {
             return true
         }
 
-        fun checkIfAvailable(field: String, filteredBookList: List<LibraryDataBase.BookInfo>):Boolean {
+        fun checkIfAvailable(field: String, filteredBookList: List<LibraryDataBase.BookInfo>) : Boolean {
             when (field) {
                 "checkOut" -> {
                     if (filteredBookList.none { it.checkOut == "대여 가능" }) {
